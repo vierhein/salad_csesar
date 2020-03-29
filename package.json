@@ -1,0 +1,17 @@
+{
+  "name": "csesar_cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^5.0.0",
+    "minimist": "^1.2.5",
+    "read": "^1.0.7",
+    "seq": "^0.3.5"
+  }
+}
