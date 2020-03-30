@@ -1,6 +1,7 @@
 const fs = require('fs');
 const read = require('read');
 const Seq = require('seq');
+const checkArgs = require('./checkArgs');
 
 
 const args = require('minimist')(process.argv.slice(2), {
@@ -14,17 +15,8 @@ const args = require('minimist')(process.argv.slice(2), {
   });
 
 const argsMap = new Map(Object.entries(args));
-if (!argsMap.has('a') || !argsMap.has('s')) {
-    console.log('No arguments')
-    process.exit(1)
-}
-if (!argsMap.has('input')) {
-    argsMap.set('input', '');
-}
 
-if (!argsMap.has('output')) {
-    argsMap.set('output', '');
-}
+checkArgs(argsMap);
 
 let isExist = true
 fs.readFile(argsMap.get('output'),'utf-8', (err, outText) => {
@@ -37,13 +29,15 @@ fs.readFile(argsMap.get('output'),'utf-8', (err, outText) => {
 fs.readFile(argsMap.get('input'), 'utf-8', (err, inputText) => {
         try {
             if (!isExist) {
+                console.error('File for write doesnt exist')
                 console.log(csesar_crypt(inputText, +argsMap.get('shift'), argsMap.get('action')))
             } else {
-            fs.writeFile(argsMap.get('output'), csesar_crypt(inputText, +argsMap.get('shift'), argsMap.get('action')), err => {})
+            fs.appendFile(argsMap.get('output'), csesar_crypt(inputText, +argsMap.get('shift'), argsMap.get('action')), err => {})
             }
        
         } catch (err) {
             if (!isExist) {
+                console.error('File for read doesnt exist')
                 Seq()
                 .seq(function () {
                     read({ prompt : 'Введите текст: ' }, this.into('consoleText'));
@@ -52,12 +46,13 @@ fs.readFile(argsMap.get('input'), 'utf-8', (err, inputText) => {
                     console.log(csesar_crypt(this.vars.consoleText, +argsMap.get('shift'), argsMap.get('action')))
             });
             } else {
+                console.error('File for read doesnt exist')
                 Seq()
                     .seq(function () {
                         read({ prompt : 'Введите текст: ' }, this.into('consoleText'));
                     })
                     .seq(function (pass) {
-                        fs.writeFile((argsMap.get('output'), csesar_crypt(this.vars.consoleText, +argsMap.get('shift'), argsMap.get('action')), err => {}))
+                        fs.appendFile(argsMap.get('output'), csesar_crypt(this.vars.consoleText, +argsMap.get('shift'), argsMap.get('action')), err => {})
                 });
             }
         }
@@ -104,7 +99,7 @@ return inputText
     }
     return String.fromCharCode(nextCharCode);
     })
-    .join('');
+    .join('') + '\n';
 };
 
 
