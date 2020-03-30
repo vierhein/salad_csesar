@@ -1,13 +1,13 @@
-CLI tool that encode and decode a text by Salad Csesar.
+# CLI tool that encode and decode a text by Salad Csesar.
 
-CLI tool accept 4 options (short alias and full name):
--s, --shift: a shift (required)
--i, --input: an input file
--o, --output: an output file
--a, --action: an action encode/decode (required)
+## CLI tool accept 4 options (short alias and full name):
+* -s, --shift: a shift (required)
+* -i, --input: an input file
+* -o, --output: an output file
+* -a, --action: an action encode/decode (required)
 
 
-Usage example:
+### Usage example:
 
 $ node my_caesar_cli -a encode -s 7 -i "./input.txt" -o "./output.txt"
 
